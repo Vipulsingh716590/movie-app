@@ -47,6 +47,26 @@
     }
   }
 
+  // Hamburger toggle: only exists for narrow phones, where the inline links row
+  // (below) is replaced by the dropdown menu instead.
+  &__menu-btn {
+    display: none;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 0;
+    flex-shrink: 0;
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
+
+    svg {
+      width: 24px;
+      height: 24px;
+      fill: currentColor;
+    }
+  }
+
   &__links a {
     display: flex;
     align-items: center;
@@ -128,5 +148,58 @@
   // Phones: the section links give way to the search box when it is open.
   .navbar__left:has(+ .is-open) .navbar__links {
     display: none;
+  }
+}
+
+// Narrow phones: the inline links row can't fit next to the logo and search icon
+// (it was silently clipping "Upcoming" and "Now Playing" with no scroll hint), so
+// it's replaced by a hamburger + dropdown instead.
+@media (max-width: 600px) {
+  .navbar__links {
+    display: none;
+  }
+
+  .navbar__menu-btn {
+    display: grid;
+    place-items: center;
+  }
+
+  .navbar__menu {
+    position: fixed;
+    top: var(--nav-h);
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    padding: 8px var(--gutter) 16px;
+    background: #141414;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+
+    a {
+      display: flex;
+      align-items: center;
+      min-height: 48px;
+      color: #e5e5e5;
+      text-decoration: none;
+      font-size: 0.98rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+
+      &:first-child {
+        border-top: 0;
+      }
+
+      &:hover,
+      &:focus-visible {
+        color: #fff;
+      }
+    }
+  }
+
+  .navbar__scrim {
+    position: fixed;
+    inset: var(--nav-h) 0 0 0;
+    z-index: 99;
+    background: rgba(0, 0, 0, 0.5);
   }
 }

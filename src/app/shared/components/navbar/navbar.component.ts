@@ -20,6 +20,7 @@ export class NavbarComponent implements OnDestroy {
   /** Transparent over the hero, solid black once the page has scrolled (Netflix / Hotstar style). */
   scrolled = signal(false);
   searchOpen = signal(false);
+  menuOpen = signal(false);
   query = signal('');
 
   constructor() {
@@ -40,6 +41,7 @@ export class NavbarComponent implements OnDestroy {
             this.query.set('');
             this.searchOpen.set(false);
           }
+          this.menuOpen.set(false);
         })
     );
   }
@@ -51,6 +53,14 @@ export class NavbarComponent implements OnDestroy {
   @HostListener('window:scroll')
   onScroll(): void {
     this.scrolled.set(window.scrollY > 40);
+  }
+
+  toggleMenu(): void {
+    this.menuOpen.update((open) => !open);
+  }
+
+  closeMenu(): void {
+    this.menuOpen.set(false);
   }
 
   toggleSearch(input: HTMLInputElement): void {

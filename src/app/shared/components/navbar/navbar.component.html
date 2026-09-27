@@ -1,5 +1,12 @@
-<header class="navbar" [class.is-solid]="scrolled() || searchOpen()">
+<header class="navbar" [class.is-solid]="scrolled() || searchOpen() || menuOpen()">
   <div class="navbar__left">
+    <button type="button" class="navbar__menu-btn" aria-label="Open menu" [attr.aria-expanded]="menuOpen()"
+      (click)="toggleMenu()">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path *ngIf="!menuOpen()" d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/>
+        <path *ngIf="menuOpen()" d="M6.4 5 5 6.4 10.6 12 5 17.6 6.4 19 12 13.4 17.6 19 19 17.6 13.4 12 19 6.4 17.6 5 12 10.6z"/>
+      </svg>
+    </button>
     <a class="navbar__logo" routerLink="/" fragment="top">MOVIEFLIX</a>
     <nav class="navbar__links" aria-label="Browse">
       <a routerLink="/" fragment="top">Home</a>
@@ -19,4 +26,13 @@
       aria-label="Search movies" [value]="query()" (input)="onInput(input.value)"
       (blur)="onBlur()" (keydown.escape)="closeSearch(input)">
   </form>
+
+  <!-- Narrow phones (<=600px): the inline links row can't fit, so it moves into this dropdown. -->
+  <nav class="navbar__menu" *ngIf="menuOpen()" aria-label="Browse">
+    <a routerLink="/" fragment="top" (click)="closeMenu()">Home</a>
+    <a routerLink="/" fragment="popular" (click)="closeMenu()">Popular</a>
+    <a routerLink="/" fragment="upcoming" (click)="closeMenu()">Upcoming</a>
+    <a routerLink="/" fragment="latest" (click)="closeMenu()">Now Playing</a>
+  </nav>
 </header>
+<div class="navbar__scrim" *ngIf="menuOpen()" (click)="closeMenu()"></div>
