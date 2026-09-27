@@ -17,6 +17,8 @@ const AUTOPLAY_VIDEO_MS = 30000;
 /** Poster shows first; the trailer fades in over it after this delay (Netflix behaviour). */
 const VIDEO_DELAY_MS = 1500;
 
+const PLACEHOLDER = 'assets/images/placeholder-poster.svg';
+
 @Component({
   selector: 'app-banner',
   standalone: true,
@@ -46,6 +48,9 @@ export class BannerComponent implements OnInit, OnDestroy {
   private failed = signal<ReadonlySet<string>>(new Set());
   /** False while the hero is scrolled off-screen, so the trailer stops instead of playing unseen. */
   private inView = signal(true);
+
+  /** Template-accessible fallback for a movie with no poster at all. */
+  readonly placeholder = PLACEHOLDER;
 
   /** Video plays only for the visible active slide, and never on top of the trailer modal. */
   video = computed(() => {
@@ -121,5 +126,13 @@ export class BannerComponent implements OnInit, OnDestroy {
 
   isUpcoming(movie: Movie): boolean {
     return new Date(movie.release_date) > new Date();
+  }
+
+  /** Falls back to the local placeholder once if the poster URL is missing or fails to load. */
+  onImageError(event: Event): void {
+    const img = event.target as HTMLImageElement;
+    if (img.dataset['fallback']) return;
+    img.dataset['fallback'] = 'true';
+    img.src = PLACEHOLDER;
   }
 }

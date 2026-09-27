@@ -11,6 +11,8 @@ import { VideoPreviewComponent } from '../../../../shared/components/video-previ
 /** Poster shows first; the trailer fades in over it after this delay (same pacing as the home hero). */
 const VIDEO_DELAY_MS = 1200;
 
+const PLACEHOLDER = 'assets/images/placeholder-poster.svg';
+
 @Component({
   selector: 'app-detail-header',
   standalone: true,
@@ -32,6 +34,9 @@ export class DetailHeaderComponent implements OnChanges, OnDestroy {
   /** The movie's trailer, once found and the fade-in delay has passed; null while the modal is open. */
   video = signal<PlayableTrailer | null>(null);
 
+  /** Template-accessible fallback for a movie with no poster at all. */
+  readonly placeholder = PLACEHOLDER;
+
   ngOnChanges(): void {
     clearTimeout(this.videoTimer);
     this.video.set(null);
@@ -49,6 +54,14 @@ export class DetailHeaderComponent implements OnChanges, OnDestroy {
 
   onVideoFailed(): void {
     this.video.set(null);
+  }
+
+  /** Falls back to the local placeholder once if the poster URL is missing or fails to load. */
+  onImageError(event: Event): void {
+    const img = event.target as HTMLImageElement;
+    if (img.dataset['fallback']) return;
+    img.dataset['fallback'] = 'true';
+    img.src = PLACEHOLDER;
   }
 
   goBack(): void {

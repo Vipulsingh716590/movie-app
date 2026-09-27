@@ -31,7 +31,8 @@
         </div>
       </div>
 
-      <img class="hero__poster" [src]="movie.poster_path | posterUrl" [alt]="movie.title">
+      <img class="hero__poster" [src]="(movie.poster_path | posterUrl) || placeholder" [alt]="movie.title"
+        (error)="onImageError($event)">
     </div>
   </article>
 

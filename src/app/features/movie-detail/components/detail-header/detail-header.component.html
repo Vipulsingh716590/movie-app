@@ -10,7 +10,8 @@
   </button>
 
   <div class="detail-header__content">
-    <img class="detail-header__poster" [src]="movie.poster_path | posterUrl" [alt]="movie.title">
+    <img class="detail-header__poster" [src]="(movie.poster_path | posterUrl) || placeholder" [alt]="movie.title"
+      (error)="onImageError($event)">
     <div class="detail-header__info">
       <h1>{{ movie.title }}</h1>
       <div class="detail-header__genres">
