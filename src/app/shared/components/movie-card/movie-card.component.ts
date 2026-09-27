@@ -10,7 +10,7 @@ import { PosterUrlPipe } from '../../pipes/poster-url.pipe';
 import { VideoPreviewComponent } from '../video-preview/video-preview.component';
 import { RatingBadgeComponent } from '../rating-badge/rating-badge.component';
 
-const PLACEHOLDER = 'assets/images/placeholder-poster.png';
+const PLACEHOLDER = 'assets/images/placeholder-poster.svg';
 
 @Component({
   selector: 'app-movie-card',

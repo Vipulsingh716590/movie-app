@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { CastMember } from '../../../../core/models/cast-member.model';
 import { PosterUrlPipe } from '../../../../shared/pipes/poster-url.pipe';
 
-const PLACEHOLDER = 'assets/images/placeholder-poster.png';
+const PLACEHOLDER = 'assets/images/placeholder-poster.svg';
 
 @Component({
   selector: 'app-cast-list',
