@@ -1,0 +1,15 @@
+<footer class="footer">
+  <nav class="footer__links" aria-label="Footer">
+    <a routerLink="/" fragment="top">Home</a>
+    <a routerLink="/" fragment="popular">Popular</a>
+    <a routerLink="/" fragment="upcoming">Upcoming</a>
+    <a routerLink="/" fragment="latest">Now Playing</a>
+  </nav>
+  <p>&copy; {{ year }} MovieFlix &mdash; demo project, movie data for illustration only.</p>
+  <p class="footer__credit" *ngIf="usingTmdb; else sampleCredit">
+    Movie data and trailers via the TMDB API. This product uses the TMDB API but is not endorsed or certified by TMDB.
+  </p>
+  <ng-template #sampleCredit>
+    <p class="footer__credit">Running on sample data. Add a TMDB API key to switch to live movies and trailers.</p>
+  </ng-template>
+</footer>

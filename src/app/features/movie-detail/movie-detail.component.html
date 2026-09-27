@@ -1,0 +1,13 @@
+<ng-container *ngIf="movie() as m; else notFound">
+  <app-detail-header [movie]="m"></app-detail-header>
+  <app-rating-info [movie]="m"></app-rating-info>
+  <app-cast-list [cast]="m.cast"></app-cast-list>
+  <app-movie-grid title="More Like This" [movies]="similar()" [loading]="similarLoading()"
+    *ngIf="similarLoading() || similar().length"></app-movie-grid>
+</ng-container>
+
+<ng-template #notFound>
+  <div class="not-found">
+    <p>Movie not found.</p>
+  </div>
+</ng-template>

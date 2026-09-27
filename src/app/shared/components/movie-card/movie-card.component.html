@@ -1,0 +1,23 @@
+<div class="movie-card">
+  <a class="movie-card__link" [routerLink]="['/movie', movie.id]" [attr.aria-label]="movie.title">
+    <div class="movie-card__media">
+      <img class="movie-card__poster" [src]="movie.poster_path | posterUrl" [alt]="movie.title"
+        loading="lazy" (error)="onImageError($event)">
+      <app-video-preview *ngIf="preview() as t" class="movie-card__video" [trailer]="t"
+        (failed)="stopPreview()"></app-video-preview>
+      <app-rating-badge class="movie-card__rating" *ngIf="movie.vote_average > 0; else comingSoon"
+        [rating]="movie.vote_average"></app-rating-badge>
+      <ng-template #comingSoon>
+        <span class="movie-card__soon">{{ movie.release_date | date:'MMM yyyy' }}</span>
+      </ng-template>
+    </div>
+
+    <div class="movie-card__overlay">
+      <h3 class="movie-card__title">{{ movie.title }}</h3>
+      <p class="movie-card__meta">
+        <span *ngIf="movie.release_date">{{ movie.release_date | date:'yyyy' }}</span>
+        <span class="movie-card__genre" *ngFor="let genre of (movie.genres ?? []) | slice:0:2">{{ genre.name }}</span>
+      </p>
+    </div>
+  </a>
+</div>

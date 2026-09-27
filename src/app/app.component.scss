@@ -1,0 +1,17 @@
+main {
+  min-height: 60vh;
+}
+
+// Off-screen but readable by screen readers / search engines: the visible "h2" titles stay as the
+// page's visual hierarchy, this just gives the document a single real h1.
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

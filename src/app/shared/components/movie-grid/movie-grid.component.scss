@@ -1,0 +1,121 @@
+:host {
+  display: block;
+}
+
+.movie-grid {
+  --item-w: clamp(132px, 32vw, 190px);
+  --gap: clamp(8px, 1.2vw, 14px);
+  // Room above/below the strip so a hovered (lifted, enlarged) card is not clipped by the scroller.
+  --bleed: 26px;
+  padding: clamp(10px, 2vw, 18px) 0;
+  scroll-margin-top: 72px;
+
+  &__title {
+    margin: 0 var(--gutter) 2px;
+    font-size: clamp(1.05rem, 2.4vw, 1.5rem);
+    font-weight: 700;
+    color: #fff;
+  }
+
+  &__wrap {
+    position: relative;
+  }
+
+  &__scroller {
+    display: flex;
+    gap: var(--gap);
+    overflow-x: auto;
+    padding: var(--bleed) var(--gutter);
+    scroll-snap-type: x proximity;
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  &__item {
+    flex: 0 0 var(--item-w);
+    min-width: 0;
+    scroll-snap-align: start;
+
+    // A ranked row (Top 10) reserves room on the left for a big number laid beside the card,
+    // like Netflix's Top 10 rows.
+    &--ranked {
+      position: relative;
+      flex: 0 0 calc(var(--item-w) + 0.5 * var(--item-w));
+      padding-left: calc(0.42 * var(--item-w));
+    }
+  }
+
+  &__rank {
+    position: absolute;
+    left: 0;
+    bottom: 4px;
+    z-index: 1;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 800;
+    font-size: calc(var(--item-w) * 0.62);
+    line-height: 1;
+    color: #2b2b2b;
+    -webkit-text-stroke: 1.5px #666;
+    user-select: none;
+    pointer-events: none;
+  }
+
+  &__item--ranked app-movie-card {
+    position: relative;
+    z-index: 2;
+  }
+
+  &__arrow {
+    position: absolute;
+    top: var(--bleed);
+    bottom: var(--bleed);
+    z-index: 10;
+    width: clamp(36px, 4vw, 56px);
+    padding: 0;
+    border: 0;
+    display: grid;
+    place-items: center;
+    color: #fff;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.25s ease, background 0.25s ease;
+
+    svg {
+      width: 34px;
+      height: 34px;
+      fill: currentColor;
+    }
+
+    &--prev {
+      left: 0;
+      background: linear-gradient(to right, rgba(20, 20, 20, 0.9), rgba(20, 20, 20, 0));
+    }
+
+    &--next {
+      right: 0;
+      background: linear-gradient(to left, rgba(20, 20, 20, 0.9), rgba(20, 20, 20, 0));
+    }
+
+    &.is-hidden {
+      visibility: hidden;
+    }
+  }
+}
+
+// Arrows appear when the pointer is over the row; touch screens just swipe.
+@media (hover: hover) and (pointer: fine) {
+  .movie-grid__wrap:hover .movie-grid__arrow,
+  .movie-grid__arrow:focus-visible {
+    opacity: 1;
+  }
+}
+
+@media (hover: none) {
+  .movie-grid__arrow {
+    display: none;
+  }
+}

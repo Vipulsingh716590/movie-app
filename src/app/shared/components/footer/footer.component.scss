@@ -1,0 +1,38 @@
+.footer {
+  padding: 32px var(--gutter) 24px;
+  color: #8a8a8a;
+  font-size: 0.8rem;
+  text-align: center;
+  border-top: 1px solid #262626;
+
+  p {
+    margin: 6px 0 0;
+  }
+
+  &__links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 20px;
+    margin-bottom: 10px;
+
+    a {
+      color: #b3b3b3;
+      text-decoration: none;
+      font-size: 0.82rem;
+
+      &:hover,
+      &:focus-visible {
+        color: #fff;
+        text-decoration: underline;
+      }
+    }
+  }
+
+  &__credit {
+    color: #5c5c5c;
+    font-size: 0.72rem;
+    max-width: 60ch;
+    margin-inline: auto;
+  }
+}

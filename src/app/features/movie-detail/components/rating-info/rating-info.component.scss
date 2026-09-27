@@ -1,0 +1,33 @@
+.rating-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px clamp(20px, 4vw, 40px);
+  padding: 0 var(--gutter);
+  margin: 16px 0;
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  &__label {
+    font-size: 0.8rem;
+    color: #b3b3b3;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  &__value {
+    color: #e5e5e5;
+    font-weight: 600;
+  }
+
+  &__overview {
+    padding: 0 var(--gutter);
+    color: #d2d2d2;
+    line-height: 1.7;
+    font-size: clamp(0.95rem, 2vw, 1.05rem);
+    max-width: 75ch;
+  }
+}

@@ -1,0 +1,16 @@
+<div class="rating-info">
+  <div class="rating-info__item">
+    <span class="rating-info__label">Rating</span>
+    <app-rating-badge *ngIf="movie.vote_average > 0; else notRated" [rating]="movie.vote_average"></app-rating-badge>
+    <ng-template #notRated><span class="rating-info__value">Not rated yet</span></ng-template>
+  </div>
+  <div class="rating-info__item">
+    <span class="rating-info__label">Release Date</span>
+    <span class="rating-info__value">{{ movie.release_date | date:'mediumDate' }}</span>
+  </div>
+  <div class="rating-info__item" *ngIf="movie.runtime">
+    <span class="rating-info__label">Runtime</span>
+    <span class="rating-info__value">{{ movie.runtime }} min</span>
+  </div>
+</div>
+<p class="rating-info__overview">{{ movie.overview }}</p>

@@ -1,0 +1,25 @@
+<section class="detail-header">
+  <div class="detail-header__bg"
+    [style.backgroundImage]="'url(' + (movie.backdrop_path | posterUrl:'backdrop') + ')'"></div>
+  <app-video-preview *ngIf="video() as t" class="detail-header__video" [trailer]="t"
+    [muted]="true" (failed)="onVideoFailed()"></app-video-preview>
+  <div class="detail-header__gradient"></div>
+
+  <button type="button" class="detail-header__back" aria-label="Go back" (click)="goBack()">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.4 7.4 14 6l-6 6 6 6 1.4-1.4L10.8 12z"/></svg>
+  </button>
+
+  <div class="detail-header__content">
+    <img class="detail-header__poster" [src]="movie.poster_path | posterUrl" [alt]="movie.title">
+    <div class="detail-header__info">
+      <h1>{{ movie.title }}</h1>
+      <div class="detail-header__genres">
+        <span class="genre-pill" *ngFor="let genre of movie.genres">{{ genre.name }}</span>
+      </div>
+      <button type="button" class="detail-header__trailer" [disabled]="unavailable()" (click)="playTrailer()">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+        {{ unavailable() ? 'Trailer unavailable' : 'Watch Trailer' }}
+      </button>
+    </div>
+  </div>
+</section>

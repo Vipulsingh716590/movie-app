@@ -1,0 +1,5 @@
+<div class="error-banner" *ngIf="errorHandler.currentError() as message" role="alert">
+  <span class="error-banner__text">{{ message }}</span>
+  <button type="button" class="error-banner__retry" (click)="reload()">Retry</button>
+  <button type="button" class="error-banner__close" aria-label="Dismiss" (click)="errorHandler.clearError()">&times;</button>
+</div>

@@ -1,0 +1,22 @@
+<header class="navbar" [class.is-solid]="scrolled() || searchOpen()">
+  <div class="navbar__left">
+    <a class="navbar__logo" routerLink="/" fragment="top">MOVIEFLIX</a>
+    <nav class="navbar__links" aria-label="Browse">
+      <a routerLink="/" fragment="top">Home</a>
+      <a routerLink="/" fragment="popular">Popular</a>
+      <a routerLink="/" fragment="upcoming">Upcoming</a>
+      <a routerLink="/" fragment="latest">Now Playing</a>
+    </nav>
+  </div>
+
+  <form class="navbar__search" [class.is-open]="searchOpen()" role="search" (submit)="$event.preventDefault()">
+    <button type="button" class="navbar__search-btn" aria-label="Search movies" (click)="toggleSearch(input)">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M15.5 14h-.8l-.3-.3A6.5 6.5 0 1 0 14 15.5l.3.3v.8l5 5 1.5-1.5-5-5zm-6 0a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9z"/>
+      </svg>
+    </button>
+    <input #input class="navbar__search-input" type="search" placeholder="Search movies" autocomplete="off"
+      aria-label="Search movies" [value]="query()" (input)="onInput(input.value)"
+      (blur)="onBlur()" (keydown.escape)="closeSearch(input)">
+  </form>
+</header>

@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "mock-api",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "mock:server"],
+      "port": 3000
+    },
+    {
+      "name": "movie-app",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["ng", "serve", "--port", "4201"],
+      "port": 4201
+    }
+  ]
+}

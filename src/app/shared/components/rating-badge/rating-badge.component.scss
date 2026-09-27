@@ -1,0 +1,14 @@
+.rating-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  width: fit-content;
+  line-height: 1.4;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+
+  &--good { background: #1db954; color: #fff; }
+  &--mid  { background: #e0a500; color: #1a1a1a; }
+  &--low  { background: #999; color: #1a1a1a; }
+}

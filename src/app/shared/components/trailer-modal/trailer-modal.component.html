@@ -1,0 +1,16 @@
+<div class="trailer" *ngIf="trailer.current() as t" role="dialog" aria-modal="true"
+  [attr.aria-label]="t.title + ' trailer'" (click)="trailer.close()">
+  <div class="trailer__box" (click)="$event.stopPropagation()">
+    <button type="button" class="trailer__close" aria-label="Close trailer" (click)="trailer.close()">&times;</button>
+    <div class="trailer__frame">
+      <video *ngIf="t.trailer.kind === 'file'" [src]="t.trailer.url" controls autoplay playsinline
+        controlsList="nodownload" [attr.aria-label]="t.title + ' official trailer'"></video>
+      <iframe *ngIf="embedUrl() as url" [src]="url" [title]="t.title + ' official trailer'"
+        allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen
+        referrerpolicy="strict-origin-when-cross-origin"></iframe>
+    </div>
+    <p class="trailer__caption">
+      <span>{{ t.title }} &ndash; Official trailer</span>
+    </p>
+  </div>
+</div>

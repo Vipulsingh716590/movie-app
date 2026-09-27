@@ -1,0 +1,62 @@
+.cast-list {
+  padding: 24px var(--gutter);
+
+  h2 {
+    color: #fff;
+    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+    margin: 0 0 16px;
+  }
+
+  &__row {
+    display: flex;
+    gap: clamp(12px, 3vw, 24px);
+    flex-wrap: wrap;
+  }
+
+  &__member {
+    width: clamp(88px, 12vw, 120px);
+    text-align: center;
+
+    img {
+      width: clamp(72px, 10vw, 100px);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 8px;
+      background: #1a1a1a;
+    }
+  }
+
+  &__name {
+    color: #e5e5e5;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin: 0;
+    overflow-wrap: anywhere;
+  }
+
+  &__character {
+    color: #b3b3b3;
+    font-size: 0.8rem;
+    margin: 0;
+    overflow-wrap: anywhere;
+  }
+}
+
+// On phones the cast becomes a swipeable row instead of wrapping into many lines.
+@media (max-width: 600px) {
+  .cast-list {
+    &__row {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      scroll-snap-type: x proximity;
+      margin: 0 calc(var(--gutter) * -1);
+      padding: 0 var(--gutter) 8px;
+    }
+
+    &__member {
+      flex: 0 0 auto;
+      scroll-snap-align: start;
+    }
+  }
+}

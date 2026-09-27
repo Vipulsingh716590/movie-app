@@ -1,0 +1,14 @@
+[build]
+  command = "npm run build:prod"
+  publish = "dist/movie-app/browser"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# Angular's router handles every path client-side (/, /movie/:id, /search).
+# Without this, refreshing or directly opening a non-root URL on Netlify 404s,
+# because Netlify otherwise looks for a matching file on disk for each path.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

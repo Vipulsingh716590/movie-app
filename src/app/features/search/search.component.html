@@ -1,0 +1,38 @@
+<section class="search">
+  <h1 class="search__title" *ngIf="query(); else prompt">
+    <ng-container *ngIf="!loading()">{{ filtered().length }} result{{ filtered().length === 1 ? '' : 's' }} for </ng-container>
+    <ng-container *ngIf="loading()">Searching for </ng-container>
+    <span class="search__query">&ldquo;{{ query() }}&rdquo;</span>
+  </h1>
+  <ng-template #prompt>
+    <h1 class="search__title">Search movies</h1>
+    <p class="search__hint">Type a movie title in the search box above.</p>
+
+    <div class="search__recent" *ngIf="recent().length">
+      <span class="search__recent-label">Recent searches</span>
+      <div class="search__chips">
+        <button type="button" class="search__chip" *ngFor="let term of recent()" (click)="searchAgain(term)">{{ term }}</button>
+      </div>
+    </div>
+  </ng-template>
+
+  <div class="search__chips search__chips--genre" *ngIf="!loading() && genres().length > 1">
+    <button type="button" class="search__chip" [class.is-active]="activeGenre() === null" (click)="setGenre(null)">All</button>
+    <button type="button" class="search__chip" *ngFor="let g of genres()" [class.is-active]="activeGenre() === g" (click)="setGenre(g)">{{ g }}</button>
+  </div>
+
+  <div class="search__grid" *ngIf="loading()">
+    <app-skeleton-loader *ngFor="let i of skeletons"></app-skeleton-loader>
+  </div>
+
+  <div class="search__grid" *ngIf="!loading() && filtered().length">
+    <app-movie-card *ngFor="let movie of filtered()" [movie]="movie"></app-movie-card>
+  </div>
+
+  <p class="search__hint" *ngIf="!loading() && query() && !results().length">
+    No movies match your search. Try a different title.
+  </p>
+  <p class="search__hint" *ngIf="!loading() && results().length && !filtered().length">
+    No {{ activeGenre() }} movies in these results.
+  </p>
+</section>

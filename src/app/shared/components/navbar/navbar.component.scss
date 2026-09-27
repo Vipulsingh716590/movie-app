@@ -1,0 +1,132 @@
+:host {
+  display: block;
+}
+
+.navbar {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 100;
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 var(--gutter);
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0));
+  transition: background 0.35s ease, box-shadow 0.35s ease;
+
+  &.is-solid {
+    background: #141414;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+  }
+
+  &__left {
+    display: flex;
+    align-items: center;
+    gap: clamp(12px, 3vw, 32px);
+    min-width: 0;
+  }
+
+  &__logo {
+    font-size: clamp(1.15rem, 3.5vw, 1.6rem);
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #e50914;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+
+  &__links {
+    display: flex;
+    gap: clamp(10px, 2.4vw, 24px);
+    overflow-x: auto;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  &__links a {
+    display: flex;
+    align-items: center;
+    // Minimum comfortable touch target (WCAG target-size), even though the text itself is small.
+    min-height: 44px;
+    padding: 0 2px;
+    color: #e5e5e5;
+    text-decoration: none;
+    font-size: 0.88rem;
+    white-space: nowrap;
+    transition: color 0.2s ease;
+
+    &:hover,
+    &:focus-visible {
+      color: #fff;
+    }
+  }
+
+  // Search: an icon that expands into an input, like Netflix.
+  &__search {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    border: 1px solid transparent;
+    background: transparent;
+    transition: border-color 0.25s ease, background 0.25s ease;
+
+    &.is-open {
+      border-color: #fff;
+      background: rgba(0, 0, 0, 0.75);
+    }
+  }
+
+  &__search-btn {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
+
+    svg {
+      width: 24px;
+      height: 24px;
+      fill: currentColor;
+    }
+  }
+
+  &__search-input {
+    width: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: #fff;
+    font: inherit;
+    font-size: 0.9rem;
+    transition: width 0.3s ease, padding 0.3s ease;
+
+    &::placeholder {
+      color: #999;
+    }
+
+    &::-webkit-search-cancel-button {
+      display: none;
+    }
+  }
+
+  &__search.is-open &__search-input {
+    width: clamp(120px, 24vw, 240px);
+    padding: 0 10px 0 0;
+  }
+}
+
+@media (max-width: 720px) {
+  // Phones: the section links give way to the search box when it is open.
+  .navbar__left:has(+ .is-open) .navbar__links {
+    display: none;
+  }
+}

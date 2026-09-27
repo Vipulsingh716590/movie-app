@@ -1,0 +1,27 @@
+<section class="movie-grid" [attr.id]="anchor || null">
+  <h2 class="movie-grid__title">{{ title }}</h2>
+
+  <div class="movie-grid__wrap">
+    <button type="button" class="movie-grid__arrow movie-grid__arrow--prev" [class.is-hidden]="atStart()"
+      aria-label="Scroll left" (click)="scrollBy(-1)">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.4 7.4 14 6l-6 6 6 6 1.4-1.4L10.8 12z"/></svg>
+    </button>
+
+    <div class="movie-grid__scroller" #scroller (scroll)="updateArrows()">
+      <ng-container *ngIf="!loading; else loadingTpl">
+        <div class="movie-grid__item" [class.movie-grid__item--ranked]="ranked" *ngFor="let movie of movies; let i = index">
+          <span class="movie-grid__rank" *ngIf="ranked" aria-hidden="true">{{ i + 1 }}</span>
+          <app-movie-card [movie]="movie"></app-movie-card>
+        </div>
+      </ng-container>
+      <ng-template #loadingTpl>
+        <div class="movie-grid__item" *ngFor="let i of skeletons"><app-skeleton-loader></app-skeleton-loader></div>
+      </ng-template>
+    </div>
+
+    <button type="button" class="movie-grid__arrow movie-grid__arrow--next" [class.is-hidden]="atEnd()"
+      aria-label="Scroll right" (click)="scrollBy(1)">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.6 16.6 10 18l6-6-6-6-1.4 1.4 4.6 4.6z"/></svg>
+    </button>
+  </div>
+</section>

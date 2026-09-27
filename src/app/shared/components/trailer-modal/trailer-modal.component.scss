@@ -1,0 +1,76 @@
+.trailer {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.85);
+  animation: trailer-fade 0.25s ease;
+
+  &__box {
+    position: relative;
+    width: min(100%, 960px);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &__frame {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    background: #000;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+
+    video,
+    iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+  }
+
+  &__close {
+    align-self: flex-end;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    font-size: 1.6rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 0.2s ease;
+
+    &:hover,
+    &:focus-visible {
+      background: var(--color-accent);
+    }
+  }
+
+  &__caption {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px;
+    margin: 0;
+    color: #e5e5e5;
+    font-size: 0.9rem;
+
+    a {
+      color: #fff;
+    }
+  }
+}
+
+@keyframes trailer-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
