@@ -2,7 +2,8 @@
   <h2>Cast</h2>
   <div class="cast-list__row">
     <div class="cast-list__member" *ngFor="let member of cast">
-      <img [src]="member.profile_path" [alt]="member.name">
+      <img [src]="(member.profile_path | posterUrl) || placeholder" [alt]="member.name"
+        loading="lazy" (error)="onImageError($event)">
       <p class="cast-list__name">{{ member.name }}</p>
       <p class="cast-list__character">{{ member.character }}</p>
     </div>
