@@ -250,10 +250,11 @@
       -webkit-line-clamp: 3;
     }
 
-    // Bottom-right is taken by the action buttons on phones.
+    // Bottom-right is taken by the action buttons on phones, so the button moves to the top-right,
+    // below the fixed navbar: at top: 16px it sat under the navbar and covered the search icon.
     &__mute {
       bottom: auto;
-      top: 16px;
+      top: calc(var(--nav-h) + 12px);
     }
 
     &__btn {
