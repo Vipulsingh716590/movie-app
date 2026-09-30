@@ -12,3 +12,13 @@
   from = "/*"
   to = "/index.html"
   status = 200
+
+# Hides the "Powered by Netlify" corner badge. Netlify injects the badge as an inline script at its
+# edge, and its docs say a Content Security Policy whose script-src omits 'unsafe-inline' stops it
+# from rendering. This app only runs its own external bundles, so that policy is safe here.
+# The proper switch is Netlify dashboard > Project configuration > General > Powered by Netlify badge.
+# If you add a new third-party host (analytics, fonts, video), add it to the matching directive below.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; media-src 'self' https:; connect-src 'self' https://api.themoviedb.org https://image.tmdb.org; frame-src https://www.youtube-nocookie.com https://www.youtube.com; font-src 'self' data:; object-src 'none'; base-uri 'self'"
