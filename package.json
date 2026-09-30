@@ -8,7 +8,8 @@
     "build": "ng build",
     "build:prod": "node scripts/inject-tmdb-key.mjs && ng build --configuration production",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test --no-watch",
+    "test:watch": "ng test"
   },
   "private": true,
   "dependencies": {
@@ -30,7 +31,13 @@
     "@angular/compiler-cli": "^18.0.0",
     "@types/jasmine": "~5.1.0",
     "concurrently": "^8.2.2",
+    "jasmine-core": "~5.1.0",
     "json-server": "^0.17.4",
+    "karma": "~6.4.0",
+    "karma-chrome-launcher": "~3.2.0",
+    "karma-coverage": "~2.2.0",
+    "karma-jasmine": "~5.1.0",
+    "karma-jasmine-html-reporter": "~2.1.0",
     "typescript": "~5.4.0"
   }
 }
