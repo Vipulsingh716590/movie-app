@@ -1,10 +1,11 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, forkJoin, map, shareReplay, switchMap } from 'rxjs';
+import { Observable, catchError, forkJoin, map, of, shareReplay, switchMap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Genre, Movie, MovieResponse } from '../models/movie.model';
 import { MovieDetail } from '../models/movie-detail.model';
 import { CastMember } from '../models/cast-member.model';
+import { hasDevanagari, movieMatches } from '../utils/search-text';
 
 /** TMDB list endpoints return genre ids only; these are the extra fields we read. */
 type TmdbMovie = Movie & { genre_ids?: number[] };
@@ -24,12 +25,13 @@ export class MovieService {
     .get<{ genres: Genre[] }>(`${this.base}/genre/movie/list`, { params: this.apiParams })
     .pipe(map((res) => new Map(res.genres.map((g) => [g.id, g.name]))), shareReplay(1));
 
-  /** Every movie the mock API knows, without duplicates. */
+  /** Every movie the mock API knows, without duplicates (the home lists plus extra search-only Hindi films). */
   private mockCatalog$ = forkJoin([
     this.getHeroMovies(),
     this.getPopular(),
     this.getUpcoming(),
-    this.getLatest()
+    this.getLatest(),
+    this.http.get<MovieResponse>(`${this.base}/search/movie`)
   ]).pipe(
     map((lists) => [...new Map(lists.flatMap((l) => l.results).map((m) => [m.id, m])).values()]),
     shareReplay(1)
@@ -77,14 +79,31 @@ export class MovieService {
       );
   }
 
-  /** TMDB searches its whole catalogue; the mock API has no search, so it filters its own lists by title. */
+  /**
+   * Works in Hindi and English. TMDB is asked twice, in English and in Hindi, so "Sholay" and "शोले" (or
+   * "इंसेप्शन" for Inception) all match; the language you typed in decides which list leads and which
+   * titles you see. The mock API matches titles, original titles and alternative (Hindi/English) titles.
+   */
   searchMovies(query: string): Observable<MovieResponse> {
-    if (!environment.useMock) return this.list('/search/movie', undefined, { query });
+    if (!environment.useMock) {
+      const languages = hasDevanagari(query) ? ['hi-IN', 'en-US'] : ['en-US', 'hi-IN'];
+      return forkJoin(
+        languages.map((language, i) => {
+          const request = this.list('/search/movie', undefined, { query, language });
+          // The second language only adds extra matches; if it fails, the first one's results still show.
+          return i === 0 ? request : request.pipe(catchError(() => of({ results: [] as Movie[] })));
+        })
+      ).pipe(
+        map((lists) => {
+          // First language's order and titles win; the other language only appends movies not found yet.
+          const merged = new Map<number, Movie>();
+          for (const movie of lists.flatMap((l) => l.results)) if (!merged.has(movie.id)) merged.set(movie.id, movie);
+          return { results: [...merged.values()] };
+        })
+      );
+    }
 
-    const needle = query.trim().toLowerCase();
-    return this.mockCatalog$.pipe(
-      map((movies) => ({ results: movies.filter((m) => m.title.toLowerCase().includes(needle)) }))
-    );
+    return this.mockCatalog$.pipe(map((movies) => ({ results: movies.filter((m) => movieMatches(m, query)) })));
   }
 
   /** Builds a full poster/backdrop URL. In mock mode, picsum URLs are already absolute. */

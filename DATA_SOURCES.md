@@ -12,7 +12,7 @@ The app has two modes. **Mock** (default) uses a local json-server. **TMDB** use
 | Hero slides | `GET /movie/hero` | `GET /trending/movie/week` (first 6 with backdrop) | `MovieService.getHeroMovies` |
 | Genre names on cards | inside `db.json` | `GET /genre/movie/list` (list endpoints only return genre ids) | `MovieService.list` |
 | Movie detail page + cast | `GET /movie/:id` | `GET /movie/{id}?append_to_response=credits` | `MovieService.getMovieById` |
-| Search box (`/search?q=`) | filters the mock lists by title in the browser | `GET /search/movie?query=` | `MovieService.searchMovies` |
+| Search box (`/search?q=`) | filters the mock lists plus a few search-only Hindi films (`searchResults`) by title, original title and Hindi/English alternative titles | `GET /search/movie?query=` twice, `language=en-US` and `hi-IN`, merged | `MovieService.searchMovies` |
 | Posters / backdrops | absolute URLs in `db.json` | `https://image.tmdb.org/t/p/w500` and `/original` | `PosterUrlPipe` |
 | **Trailer of each movie** (hero background, card hover preview, trailer modal) | `trailer_key` in `db.json`: that movie's own official trailer (YouTube id), filled by `scripts/fetch-trailers.mjs` | `GET /movie/{id}/videos` -> that movie's own official trailer | `TrailerLookupService` |
 

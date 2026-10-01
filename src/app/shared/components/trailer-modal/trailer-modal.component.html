@@ -5,9 +5,9 @@
     <div class="trailer__frame">
       <video *ngIf="t.trailer.kind === 'file'" [src]="t.trailer.url" controls autoplay playsinline
         controlsList="nodownload" [attr.aria-label]="t.title + ' official trailer'"></video>
-      <iframe *ngIf="embedUrl() as url" [src]="url" [title]="t.title + ' official trailer'"
-        allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen
-        referrerpolicy="strict-origin-when-cross-origin"></iframe>
+      <!-- Official @angular/youtube-player inside the dialog. youtubeKey() is already a validated 11-character id. -->
+      <youtube-player *ngIf="youtubeKey() as key" [videoId]="key" [playerVars]="playerVars"
+        [disableCookies]="true" [disablePlaceholder]="true"></youtube-player>
     </div>
     <p class="trailer__caption">
       <span>{{ t.title }} &ndash; Official trailer</span>
