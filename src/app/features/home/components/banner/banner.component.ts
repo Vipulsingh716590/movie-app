@@ -80,6 +80,8 @@ export class BannerComponent implements OnInit, OnDestroy {
         this.slides.set(res.results);
         this.resume();
       },
+      // Error too: otherwise a failed hero request leaves the skeleton up forever.
+      error: () => this.loaded.set(true),
       complete: () => this.loaded.set(true)
     });
     this.observer = new IntersectionObserver(([entry]) => this.inView.set(entry.isIntersecting), { threshold: 0.35 });
