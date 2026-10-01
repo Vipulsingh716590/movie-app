@@ -11,8 +11,16 @@ npm start
 # Mock API: http://localhost:3000
 
 ## Build for production (real TMDB API)
-1. Add your TMDB API key to src/environments/environment.prod.ts
-2. npm run build:prod
+The production TMDB key is never committed. `npm run build:prod` runs `scripts/inject-tmdb-key.mjs`, which
+reads the `TMDB_API_KEY` environment variable and writes it into `src/environments/environment.prod.ts`
+just before `ng build`. The file keeps its `YOUR_TMDB_API_KEY` placeholder in git, so don't edit it by hand.
+
+- Netlify: set `TMDB_API_KEY` under Site settings -> Environment variables. The build fails if it's missing.
+- Locally (bash): `TMDB_API_KEY=your_key npm run build:prod`
+- Locally (PowerShell): `$env:TMDB_API_KEY="your_key"; npm run build:prod`
+
+A local run leaves your key in `environment.prod.ts`, so run `git checkout src/environments/environment.prod.ts`
+afterwards instead of committing it.
 
 ## Switching environments
 - ng serve -> uses environment.ts (useMock: true, local json-server)
