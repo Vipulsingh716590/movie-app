@@ -6,7 +6,8 @@
   border-top: 1px solid #262626;
 
   p {
-    margin: 6px 0 0;
+    // auto side margins keep the narrower credit line centred too.
+    margin: 6px auto 0;
   }
 
   &__links {

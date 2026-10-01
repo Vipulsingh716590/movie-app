@@ -11,9 +11,15 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
-      const message = error.error?.message || error.message || 'Something went wrong. Please try again.';
-      errorHandler.setError(message);
+      // A 404 is not an outage: the page shows its own "not found" state, and Retry can't help.
+      if (error.status !== 404) errorHandler.setError(friendlyMessage(error));
       return throwError(() => error);
     })
   );
 };
+
+/** Angular's own error.message ("Http failure response for <url>: ...") is not meant for users. */
+function friendlyMessage(error: HttpErrorResponse): string {
+  if (error.status === 0) return "Can't reach the server. Check your connection and try again.";
+  return error.error?.status_message || error.error?.message || 'Something went wrong. Please try again.';
+}
