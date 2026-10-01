@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # Plain production build. `npm run build:prod` needs the TMDB_API_KEY secret
+      # (see scripts/inject-tmdb-key.mjs), so CI builds with the placeholder key instead.
+      - name: Production build
+        run: npx ng build --configuration production
+
+      # angular.json has no "test" target yet, so `ng test` would fail.
+      # This step starts running tests automatically once one is added.
+      - name: Tests
+        run: |
+          if node -e "const p=require('./angular.json').projects;process.exit(Object.values(p).some(x=>x.architect&&x.architect.test)?0:1)"; then
+            npm test -- --watch=false
+          else
+            echo "No test target in angular.json, skipping tests."
+          fi
