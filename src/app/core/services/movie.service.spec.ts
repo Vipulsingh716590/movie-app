@@ -68,8 +68,23 @@ describe('MovieService', () => {
       http.expectOne(`${base}/movie/popular`).flush({ results: [knight, movie(2, 'Inception')] });
       http.expectOne(`${base}/movie/upcoming`).flush({ results: [movie(3, 'Dark Waters')] });
       http.expectOne(`${base}/movie/now_playing`).flush({ results: [] });
+      http.expectOne(`${base}/search/movie`).flush({ results: [] });
 
       expect(result!.results.map((m) => m.title)).toEqual(['The Dark Knight', 'Dark Waters']);
+    });
+
+    it('matches Hindi and alternative titles in the mock catalogue', () => {
+      let result: MovieResponse | undefined;
+      service.searchMovies('शोले').subscribe((r) => (result = r));
+
+      for (const path of ['hero', 'popular', 'upcoming', 'now_playing']) {
+        http.expectOne(`${base}/movie/${path}`).flush({ results: [] });
+      }
+      http.expectOne(`${base}/search/movie`).flush({
+        results: [movie(5, 'Sholay', { original_title: 'शोले' }), movie(6, 'Deewaar')]
+      });
+
+      expect(result!.results.map((m) => m.title)).toEqual(['Sholay']);
     });
 
     it('loads the mock catalogue only once across searches', () => {
@@ -77,6 +92,7 @@ describe('MovieService', () => {
       for (const path of ['hero', 'popular', 'upcoming', 'now_playing']) {
         http.expectOne(`${base}/movie/${path}`).flush({ results: [] });
       }
+      http.expectOne(`${base}/search/movie`).flush({ results: [] });
       let result: MovieResponse | undefined;
       service.searchMovies('b').subscribe((r) => (result = r));
       http.expectNone(() => true);
@@ -163,17 +179,28 @@ describe('MovieService', () => {
       expect(result.cast).toEqual([]);
     });
 
-    it('searches TMDB with the query', () => {
+    it('searches TMDB in English first, then Hindi, without duplicates', () => {
       let result: MovieResponse | undefined;
       service.searchMovies('matrix').subscribe((r) => (result = r));
 
-      const req = http.expectOne((r) => r.url === `${base}/search/movie`);
-      expect(req.request.params.get('query')).toBe('matrix');
-      expect(req.request.params.get('api_key')).toBe('test-key');
-      req.flush({ results: [{ ...movie(603, 'The Matrix'), genre_ids: [28] }] });
+      const reqs = http.match((r) => r.url === `${base}/search/movie`);
+      expect(reqs.map((r) => r.request.params.get('language'))).toEqual(['en-US', 'hi-IN']);
+      expect(reqs[0].request.params.get('query')).toBe('matrix');
+      expect(reqs[0].request.params.get('api_key')).toBe('test-key');
+      reqs[0].flush({ results: [{ ...movie(603, 'The Matrix'), genre_ids: [28] }] });
       flushGenres();
+      reqs[1].flush({ results: [{ ...movie(603, 'द मैट्रिक्स'), genre_ids: [28] }, { ...movie(604, 'Reloaded'), genre_ids: [] }] });
 
+      expect(result!.results.map((m) => m.title)).toEqual(['The Matrix', 'Reloaded']);
       expect(result!.results[0].genres).toEqual([{ id: 28, name: 'Action' }]);
+    });
+
+    it('asks TMDB in Hindi first when the query is in Devanagari', () => {
+      service.searchMovies('शोले').subscribe();
+      const reqs = http.match((r) => r.url === `${base}/search/movie`);
+      expect(reqs.map((r) => r.request.params.get('language'))).toEqual(['hi-IN', 'en-US']);
+      reqs.forEach((r) => r.flush({ results: [] }));
+      http.match((r) => r.url === `${base}/genre/movie/list`).forEach((r) => r.flush({ genres: [] }));
     });
   });
 
