@@ -61,7 +61,7 @@
         @for (m of store.topRated(); track m.id; let i = $index) {
           <li class="top__row">
             <span class="top__rank">{{ i + 1 }}</span>
-            <img class="top__poster" [src]="m.poster_path" [alt]="''" loading="lazy" width="36" height="54">
+            <img class="top__poster" [src]="m.poster_path" [alt]="''" loading="lazy" (error)="$any($event.target).style.visibility = 'hidden'" width="36" height="54">
             <span class="top__title">{{ m.title }} <small>{{ m.release_date.slice(0, 4) }}</small></span>
             <app-rating-badge [rating]="m.vote_average"></app-rating-badge>
           </li>

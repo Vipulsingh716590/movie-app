@@ -18,6 +18,7 @@ interface NavItem {
 })
 export class SidebarComponent {
   readonly siteUrl = environment.siteUrl;
+  readonly demo = environment.demo;
 
   readonly items: NavItem[] = [
     { path: '/', label: 'Overview', icon: '▦', exact: true },

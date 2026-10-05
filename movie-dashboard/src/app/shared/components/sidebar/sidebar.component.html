@@ -14,5 +14,9 @@
     }
   </nav>
 
-  <a class="sidebar__site" [href]="siteUrl" target="_blank" rel="noopener">View live site ↗</a>
+  @if (demo) {
+    <p class="sidebar__demo"><strong>Demo</strong> Sample data. Changes stay in this browser tab and reset on reload.</p>
+  } @else {
+    <a class="sidebar__site" [href]="siteUrl" target="_blank" rel="noopener">View live site ↗</a>
+  }
 </aside>
