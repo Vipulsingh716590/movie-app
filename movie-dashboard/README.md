@@ -62,3 +62,12 @@ the bundle stays small and the charts are accessible), keyboard-accessible `role
 8. **Bulk actions** in the table (select many, hide ratings, assign sections) and CSV export.
 9. **Dark/light theme and Hindi labels**, since the site already supports Hindi search.
 10. **E2E tests** (Playwright) for the switch -> site flow, and a Netlify deploy of the dashboard behind authentication.
+
+## Hosted demo (Netlify)
+`npm run build:demo` builds a demo that needs no API: `demo-api.interceptor` answers the requests from an in-memory copy of
+`mock-server/db.json`, routing uses `#` URLs, and `scripts/bundle-demo.mjs` packs everything into one file (`dist/demo/index.html`).
+Changes in the demo stay in the browser tab and reset on reload.
+
+To host it on Netlify: **Add new site -> Import from Git**, pick this repo and set **Base directory** to `movie-dashboard`.
+`movie-dashboard/netlify.toml` supplies the build command and publish folder. Keep this a separate site from the movie app's own.
+Don't host the real dashboard publicly until it has a login (see ideas above), since it edits the live API.

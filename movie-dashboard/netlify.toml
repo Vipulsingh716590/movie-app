@@ -1,0 +1,9 @@
+# Hosted demo of the dashboard. In Netlify create a second site from this repo and set "Base directory" to
+# movie-dashboard; this file is then picked up. It publishes the demo build (sample data, runs fully in the browser),
+# not the real dashboard, because the real one edits the live API and has no login yet.
+[build]
+  command = "npm run build:demo"
+  publish = "dist/demo"
+
+[build.environment]
+  NODE_VERSION = "20"
