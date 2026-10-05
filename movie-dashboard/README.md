@@ -27,8 +27,8 @@ settings on start-up and applies them.
 dashboard (4300) ──PUT /settings──▶ json-server (3000, mock-server/db.json) ◀──GET /settings── movie app (4200)
 ```
 - `settings` is a new object in `mock-server/db.json` (`showRatings`, `hiddenRatingIds`, `showHeroBanner`, `showPopular`, `showUpcoming`, `showLatest`).
-- Movie app side: `SiteSettingsService` (`src/app/core/services/site-settings.service.ts`) loads it; `RatingBadgeComponent` and `HomeComponent` honour it.
-  If the settings can't be loaded (or in TMDB mode) everything stays visible, so the dashboard being down never hides content.
+- Movie app side (kept out of this change, branch `claude/movie-app-site-settings`): `SiteSettingsService` loads it; `RatingBadgeComponent` and `HomeComponent` honour it.
+  Until that branch is merged the dashboard works on its own but the site ignores its switches. If the settings can't be loaded (or in TMDB mode) the app shows everything, so the dashboard being down never hides content.
 - Editing a movie patches `movieDetails/:id` **and** the copies in the `hero` / `popular` / `upcoming` / `latest` lists, so both apps agree.
 
 ## Structure (same layout as the movie app)

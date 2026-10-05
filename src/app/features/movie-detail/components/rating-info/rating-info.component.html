@@ -1,7 +1,7 @@
 <div class="rating-info">
   <div class="rating-info__item">
     <span class="rating-info__label">Rating</span>
-    <app-rating-badge *ngIf="movie.vote_average > 0; else notRated" [rating]="movie.vote_average" [movieId]="movie.id"></app-rating-badge>
+    <app-rating-badge *ngIf="movie.vote_average > 0; else notRated" [rating]="movie.vote_average"></app-rating-badge>
     <ng-template #notRated><span class="rating-info__value">Not rated yet</span></ng-template>
   </div>
   <div class="rating-info__item">

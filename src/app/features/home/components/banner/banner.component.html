@@ -16,7 +16,7 @@
         <h2 class="hero__title">{{ movie.title }}</h2>
 
         <div class="hero__meta">
-          <app-rating-badge *ngIf="movie.vote_average > 0" [rating]="movie.vote_average" [movieId]="movie.id"></app-rating-badge>
+          <app-rating-badge *ngIf="movie.vote_average > 0" [rating]="movie.vote_average"></app-rating-badge>
           <span>{{ isUpcoming(movie) ? 'Coming' : 'Released' }} {{ movie.release_date | date:'MMM d, y' }}</span>
           <span class="hero__genre" *ngFor="let genre of movie.genres">{{ genre.name }}</span>
         </div>
