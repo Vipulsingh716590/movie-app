@@ -6,7 +6,7 @@
       <app-video-preview *ngIf="preview() as t" class="movie-card__video" [trailer]="t"
         (failed)="stopPreview()"></app-video-preview>
       <app-rating-badge class="movie-card__rating" *ngIf="movie.vote_average > 0; else comingSoon"
-        [rating]="movie.vote_average"></app-rating-badge>
+        [rating]="movie.vote_average" [movieId]="movie.id"></app-rating-badge>
       <ng-template #comingSoon>
         <span class="movie-card__soon">{{ movie.release_date | date:'MMM yyyy' }}</span>
       </ng-template>

@@ -3042,5 +3042,13 @@
                 ]
             }
         ]
+    },
+    "settings": {
+        "showRatings": true,
+        "hiddenRatingIds": [],
+        "showHeroBanner": true,
+        "showPopular": true,
+        "showUpcoming": true,
+        "showLatest": true
     }
 }

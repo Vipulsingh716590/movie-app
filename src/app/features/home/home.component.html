@@ -1,4 +1,6 @@
-<app-banner id="top"></app-banner>
-<app-popular-grid></app-popular-grid>
-<app-upcoming-grid></app-upcoming-grid>
-<app-latest-grid></app-latest-grid>
+<ng-container *ngIf="settings.settings() as s">
+  <app-banner id="top" *ngIf="s.showHeroBanner"></app-banner>
+  <app-popular-grid *ngIf="s.showPopular"></app-popular-grid>
+  <app-upcoming-grid *ngIf="s.showUpcoming"></app-upcoming-grid>
+  <app-latest-grid *ngIf="s.showLatest"></app-latest-grid>
+</ng-container>

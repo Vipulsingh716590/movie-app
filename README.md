@@ -40,3 +40,6 @@ provides what.
   and cached. TMDB hosts its trailers on YouTube, so they play in a controls-free embed.
 
 No authentication is implemented in this project.
+
+## Dashboard
+`movie-dashboard/` is the admin dashboard for this app (stats, movie editing, turning ratings and sections on or off). See [movie-dashboard/README.md](movie-dashboard/README.md).

@@ -1,5 +1,6 @@
-import { Component, Input, computed, signal } from '@angular/core';
+import { Component, Input, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { SiteSettingsService } from '../../../core/services/site-settings.service';
 
 @Component({
   selector: 'app-rating-badge',
@@ -9,7 +10,20 @@ import { CommonModule } from '@angular/common';
   styleUrl: './rating-badge.component.scss'
 })
 export class RatingBadgeComponent {
+  private settings = inject(SiteSettingsService);
   private ratingSignal = signal(0);
+  private movieIdSignal = signal<number | undefined>(undefined);
+
+  /** Lets the dashboard hide this one movie's rating; without it only the global switch applies. */
+  @Input() set movieId(value: number | undefined) {
+    this.movieIdSignal.set(value);
+  }
+
+  /** Hidden from the movie-dashboard (global switch or per-movie). */
+  visible = computed(() => {
+    this.settings.settings();
+    return this.settings.ratingVisible(this.movieIdSignal());
+  });
 
   @Input() set rating(value: number) {
     this.ratingSignal.set(value ?? 0);

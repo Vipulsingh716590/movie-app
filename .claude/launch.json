@@ -4,14 +4,34 @@
     {
       "name": "mock-api",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "mock:server"],
+      "runtimeArgs": [
+        "run",
+        "mock:server"
+      ],
       "port": 3000
     },
     {
       "name": "movie-app",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["ng", "serve", "--port", "4201"],
+      "runtimeArgs": [
+        "ng",
+        "serve",
+        "--port",
+        "4201"
+      ],
       "port": 4201
+    },
+    {
+      "name": "movie-dashboard",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "ng",
+        "serve",
+        "--port",
+        "4300"
+      ],
+      "port": 4300,
+      "cwd": "movie-dashboard"
     }
   ]
 }
